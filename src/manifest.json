@@ -1,0 +1,15 @@
+{
+  "domain": "ringo",
+  "name": "Ringo",
+  "codeowners": ["@ringo-ha"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://www.home-assistant.io/integrations/ringo",
+  "homekit": {},
+  "iot_class": "assumed_state",
+  "quality_scale": "bronze",
+  "requirements": [],
+  "ssdp": [],
+  "zeroconf": [],
+  "version": "0.0.1"
+}
