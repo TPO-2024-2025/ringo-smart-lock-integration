@@ -275,5 +275,9 @@ class RingoAPI:
     async def close(self) -> None:
         """Close the session."""
         if self._session and not self._session.closed:
-            await self._session.close()
-            self._session = None 
+            try:
+                await self._session.close()
+            except Exception as e:
+                _LOGGER.error("Error closing session: %s", e)
+            finally:
+                self._session = None 

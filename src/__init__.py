@@ -23,16 +23,14 @@ CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 async def async_setup(hass: HomeAssistant, config: dict[str, Any]) -> bool:
     """Set up the Ringo component."""
-    _LOGGER.debug("Setting up Ringo integration services")
-    # Set up services
-    await async_setup_services(hass)
-    _LOGGER.debug("Ringo integration services setup complete")
+    _LOGGER.debug("Setting up Ringo component")
+    hass.data.setdefault(DOMAIN, {})
+    _LOGGER.debug("Initialized DOMAIN in hass.data: %s", hass.data[DOMAIN])
     return True
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Ringo from a config entry."""
     _LOGGER.debug("Setting up Ringo config entry")
-    hass.data.setdefault(DOMAIN, {})
     
     api = None
     try:
@@ -48,6 +46,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         _LOGGER.debug("Authenticating with Ringo API")
         if not await api.authenticate():
             _LOGGER.error("Failed to authenticate with Ringo API")
+            if api:
+                await api.close()
             raise ConfigEntryAuthFailed("Failed to authenticate with Ringo API")
         _LOGGER.debug("Authentication successful")
             
@@ -57,6 +57,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         _LOGGER.info("Found %d locks", len(locks))
             
     except ConfigEntryAuthFailed:
+        if api:
+            await api.close()
         raise
     except Exception as e:
         _LOGGER.error("Failed to initialize Ringo API: %s", e, exc_info=True)
@@ -67,11 +69,26 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     # Store the API instance
     _LOGGER.debug("Storing API instance in hass.data")
     hass.data[DOMAIN][entry.entry_id] = api
+    _LOGGER.debug("API instance stored with entry_id: %s", entry.entry_id)
     
-    # Set up platforms
+    # Set up platforms first
     _LOGGER.debug("Setting up platforms")
-    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
-    _LOGGER.debug("Platform setup complete")
+    try:
+        await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+        _LOGGER.debug("Platform setup complete")
+    except Exception as e:
+        _LOGGER.error("Failed to set up platforms: %s", e, exc_info=True)
+        raise ConfigEntryNotReady(f"Failed to set up platforms: {e}")
+    
+    # Set up services after platforms are initialized
+    try:
+        _LOGGER.debug("Setting up services")
+        await async_setup_services(hass)
+        _LOGGER.debug("Services setup complete")
+    except Exception as e:
+        _LOGGER.error("Failed to set up services: %s", e, exc_info=True)
+        # Don't fail the setup if services fail
+        # Just log the error and continue
     
     return True
 

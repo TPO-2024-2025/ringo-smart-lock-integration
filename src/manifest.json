@@ -8,7 +8,7 @@
   "homekit": {},
   "iot_class": "assumed_state",
   "quality_scale": "bronze",
-  "requirements": [],
+  "requirements": ["aiohttp>=3.8.0"],
   "ssdp": [],
   "zeroconf": [],
   "version": "0.0.1"

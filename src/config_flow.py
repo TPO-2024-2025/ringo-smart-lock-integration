@@ -30,15 +30,20 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
 
 async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str, Any]:
     """Validate the user input allows us to connect."""
-    api = RingoAPI(
-        username=data["client"],
-        password=data["secret"]
-    )
+    api = None
+    try:
+        api = RingoAPI(
+            username=data["client"],
+            password=data["secret"]
+        )
 
-    if not await api.authenticate():
-        raise InvalidAuth
+        if not await api.authenticate():
+            raise InvalidAuth
 
-    return {"title": "Ringo"}
+        return {"title": "Ringo"}
+    finally:
+        if api:
+            await api.close()
 
 class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Ringo."""
