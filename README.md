@@ -2,6 +2,8 @@
 
 **Ringo integracija** omogoča avtomatizacijo **generiranja, urejanja in brisanja ključev**, uporabo ključavnic (zaklepanje/odklepanje) neposredno iz **Home Assistanta** in še veliko več.
 
+Povezava na YouTube posnetek, ki prikazujejo delovanje integracije: https://youtu.be/3mL_Vg-DsCM
+
 ## ⚙️ Zahteve
 
 - Nameščen Home Assistant (priporočena zadnja stabilna različica)
