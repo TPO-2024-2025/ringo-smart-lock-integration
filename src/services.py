@@ -211,7 +211,9 @@ async def async_setup_services(hass: HomeAssistant) -> None:
         try:
             api = await get_api()
             # Verify the key is valid
+            _LOGGER.debug("Verifying digital key: %s", digital_key)
             key_status = await api.get_key_status(digital_key)
+            _LOGGER.debug("Key status: %s", key_status)
             if not key_status.get("valid"):
                 _LOGGER.error("Invalid digital key")
                 return
@@ -294,26 +296,28 @@ async def async_setup_services(hass: HomeAssistant) -> None:
             }
 
     async def get_key_status(call: ServiceCall) -> dict:
-        """Get status of a digital key."""
-        try:
-            api = await get_api()
-            key_status = await api.get_key_status(call.data["digital_key"])
-            # Store the result in a sensor or notify the user
-            hass.states.async_set("sensor.ringo_key_status", "valid" if key_status.get("valid") else "invalid", {
-                "key_status": key_status,
-                "friendly_name": "Ringo Key Status"
-            })
-            _LOGGER.info("Retrieved key status: %s", key_status)
-            return {
-                "success": True,
-                "key_status": key_status
-            }
-        except Exception as e:
-            _LOGGER.error("Failed to get key status: %s", e)
-            return {
-                "success": False,
-                "error": str(e)
-            }
+            """Get status of a digital key."""
+            try:
+                api = await get_api()
+                digital_key = call.data["digital_key"]
+                _LOGGER.debug("Getting key status for digital_key: %s", digital_key)
+                key_status = await api.get_key_status(digital_key)
+                # Store the result in a sensor or notify the user
+                hass.states.async_set("sensor.ringo_key_status", "valid" if key_status.get("valid") else "invalid", {
+                    "key_status": key_status,
+                    "friendly_name": "Ringo Key Status"
+                })
+                _LOGGER.info("Retrieved key status: %s", key_status)
+                return {
+                    "success": True,
+                    "key_status": key_status
+                }
+            except Exception as e:
+                _LOGGER.error("Failed to get key status: %s", e)
+                return {
+                    "success": False,
+                    "error": str(e)
+                }
 
     # Register services with explicit schemas
     try:
@@ -394,6 +398,7 @@ async def async_setup_services(hass: HomeAssistant) -> None:
             schema=GET_KEY_STATUS_SCHEMA,
             supports_response=vol.All(vol.Coerce(bool), True)
         )
+        _LOGGER.debug("Registered get_key_status service with schema: %s", GET_KEY_STATUS_SCHEMA)
         _LOGGER.debug("Registered get_key_status service")
         
         _LOGGER.debug("All services registered successfully")

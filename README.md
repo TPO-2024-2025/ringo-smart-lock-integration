@@ -2,7 +2,7 @@
 
 **Ringo integracija** omogoča avtomatizacijo **generiranja, urejanja in brisanja ključev**, uporabo ključavnic (zaklepanje/odklepanje) neposredno iz **Home Assistanta** in še veliko več.
 
-Integracija ima na voljo vse ključavnice kot locks, in jih lahko dodaš kot običajne ključavnice v Home Assistant, poleg tega pa ima na voljo services za ostale funkcionalnosti (create_key, update_key, delete_key, set_digital_key, get_locks, get_keys, get_users.
+Integracija ima na voljo vse ključavnice kot locks, in jih lahko dodaš kot običajne ključavnice v Home Assistant, poleg tega pa ima na voljo services za ostale funkcionalnosti (create_key, update_key, delete_key, set_digital_key, get_locks, get_keys, get_users, get_key_status).
 
 Povezava na YouTube posnetek, ki prikazuje delovanje integracije: https://youtu.be/3mL_Vg-DsCM
 
@@ -18,7 +18,7 @@ Povezava na YouTube posnetek, ki prikazuje delovanje integracije: https://youtu.
 - Nastavitve časa samodejnega zaklepanja
 - Podpora več ključavnic hkrati
 - Services za upravljanje s ključi (create_key, update_key, delete_key, set_digital_key)
-- Services za pridobivanje podatkov (get_locks, get_keys, get_users)
+- Services za pridobivanje podatkov (get_locks, get_keys, get_users, get_key_status)
 
 ## 📦 Namestitev
 
@@ -139,6 +139,15 @@ Pridobi seznam vseh uporabnikov.
 
 ```yaml
 service: ringo.get_users
+```
+
+### get_key_status
+Preveri status določenega ključa.
+
+```yaml
+service: ringo.get_key_status
+data:
+  digital_key: "4cd2856a4fcd52c2b57ad47d2dcea7a9fb7f14a82d34e6532b2871208c6527a6"
 ```
 
 ### Primer uporabe v avtomatizacijah
