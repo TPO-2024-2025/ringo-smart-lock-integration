@@ -191,7 +191,7 @@ class RingoAPI:
             return []
         return users
 
-    async def get_key_info(self, digital_key: str) -> Dict[str, Any]:
+    async def get_key_status(self, digital_key: str) -> Dict[str, Any]:
         """Get full info about a single Digital key."""
         return await self._request("GET", "key", params={"digital_key": digital_key})
 

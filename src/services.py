@@ -53,6 +53,39 @@ CREATE_KEY_SCHEMA = vol.Schema({
 
 UPDATE_KEY_SCHEMA = CREATE_KEY_SCHEMA.extend({
     vol.Required("digital_key"): cv.string,
+    vol.Required("name"): cv.string,
+    vol.Required("times"): [
+        vol.Schema({
+            vol.Required("type"): vol.In(["date", "schedule"]),
+            vol.Optional("start"): cv.positive_int,
+            vol.Optional("end"): cv.positive_int,
+            vol.Optional("start_time"): cv.string,
+            vol.Optional("end_time"): cv.string,
+            vol.Optional("monday"): vol.Any(cv.boolean, vol.In([0, 1])),
+            vol.Optional("tuesday"): vol.Any(cv.boolean, vol.In([0, 1])),
+            vol.Optional("wednesday"): vol.Any(cv.boolean, vol.In([0, 1])),
+            vol.Optional("thursday"): vol.Any(cv.boolean, vol.In([0, 1])),
+            vol.Optional("friday"): vol.Any(cv.boolean, vol.In([0, 1])),
+            vol.Optional("saturday"): vol.Any(cv.boolean, vol.In([0, 1])),
+            vol.Optional("sunday"): vol.Any(cv.boolean, vol.In([0, 1])),
+        })
+    ],
+    vol.Required("locks"): [
+        vol.Schema({
+            vol.Required("lock_id"): cv.positive_int,
+            vol.Required("relay_id"): cv.positive_int,
+        })
+    ],
+    vol.Required("use_pin"): vol.Any(cv.boolean, vol.In([0, 1])),
+    vol.Optional("pins"): [
+        vol.Schema({
+            vol.Required("email"): cv.string,
+            vol.Optional("phone"): cv.string,
+            vol.Required("firstname"): cv.string,
+            vol.Required("lastname"): cv.string,
+            vol.Required("pin"): cv.string,
+        })
+    ],
 })
 
 DELETE_KEY_SCHEMA = vol.Schema({

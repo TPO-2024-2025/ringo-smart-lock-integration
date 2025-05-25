@@ -17,5 +17,109 @@
                 }
             }
         }
+    },
+    "services": {
+        "create_key": {
+            "name": "Create Digital Key",
+            "description": "Creates a new digital key for Ringo locks",
+            "fields": {
+                "name": {
+                    "name": "Name",
+                    "description": "Name of the digital key"
+                },
+                "times": {
+                    "name": "Time Schedule",
+                    "description": "List of time periods when the key is valid"
+                },
+                "locks": {
+                    "name": "Locks",
+                    "description": "List of locks this key can access"
+                },
+                "use_pin": {
+                    "name": "Use PIN",
+                    "description": "Whether to require a PIN for this key"
+                },
+                "pins": {
+                    "name": "PINs",
+                    "description": "List of PINs associated with this key"
+                }
+            }
+        },
+        "update_key": {
+            "name": "Update Digital Key",
+            "description": "Updates an existing digital key",
+            "fields": {
+                "digital_key": {
+                    "name": "Digital Key",
+                    "description": "The digital key to update"
+                },
+                "name": {
+                    "name": "Name",
+                    "description": "New name for the digital key"
+                },
+                "times": {
+                    "name": "Time Schedule",
+                    "description": "Updated time periods when the key is valid"
+                },
+                "locks": {
+                    "name": "Locks",
+                    "description": "Updated list of locks this key can access"
+                },
+                "use_pin": {
+                    "name": "Use PIN",
+                    "description": "Whether to require a PIN for this key"
+                },
+                "pins": {
+                    "name": "PINs",
+                    "description": "Updated list of PINs associated with this key"
+                }
+            }
+        },
+        "delete_key": {
+            "name": "Delete Digital Key",
+            "description": "Deletes an existing digital key",
+            "fields": {
+                "digital_key": {
+                    "name": "Digital Key",
+                    "description": "The digital key to delete"
+                }
+            }
+        },
+        "set_digital_key": {
+            "name": "Set Digital Key",
+            "description": "Sets a digital key for a specific lock",
+            "fields": {
+                "entity_id": {
+                    "name": "Lock Entity",
+                    "description": "The entity ID of the lock"
+                },
+                "digital_key": {
+                    "name": "Digital Key",
+                    "description": "The digital key to set"
+                }
+            }
+        },
+        "get_locks": {
+            "name": "Get Locks",
+            "description": "Retrieves a list of all Ringo locks"
+        },
+        "get_keys": {
+            "name": "Get Keys",
+            "description": "Retrieves a list of all digital keys"
+        },
+        "get_users": {
+            "name": "Get Users",
+            "description": "Retrieves a list of all users"
+        },
+        "get_key_status": {
+            "name": "Get Key Status",
+            "description": "Checks the status of a digital key",
+            "fields": {
+                "digital_key": {
+                    "name": "Digital Key",
+                    "description": "The digital key to check"
+                }
+            }
+        }
     }
 }

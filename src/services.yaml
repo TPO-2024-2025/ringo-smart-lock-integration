@@ -1,0 +1,206 @@
+create_key:
+  fields:
+    name:
+      name: Name
+      description: Name of the digital key (e.g. "Cleaning lady" or booking reference)
+      required: true
+      example: "My test key 2"
+      default: "My test key 2"
+      selector:
+        text: {}
+    times:
+      name: Time Schedule
+      description: Array of time periods when the key is valid
+      required: true
+      example:
+        - type: date
+          start: 1671875935
+          end: 1703411935
+        - type: schedule
+          start_time: "09:00:00"
+          end_time: "13:00:00"
+          monday: 1
+          tuesday: 0
+          wednesday: 1
+          thursday: 0
+          friday: 0
+          saturday: 0
+          sunday: 1
+      default:
+        - type: date
+          start: 1671875935
+          end: 1703411935
+        - type: schedule
+          start_time: "09:00:00"
+          end_time: "13:00:00"
+          monday: 1
+          tuesday: 0
+          wednesday: 1
+          thursday: 0
+          friday: 0
+          saturday: 0
+          sunday: 1
+      selector:
+        object: {}
+    locks:
+      name: Locks
+      description: List of locks this key can access
+      required: true
+      example:
+        - lock_id: 106
+          relay_id: 1
+      default:
+        - lock_id: 106
+          relay_id: 1
+      selector:
+        object: {}
+    use_pin:
+      name: Use PIN
+      description: Whether to require a PIN for this key (0 or 1)
+      required: true
+      example: 1
+      default: 1
+      selector:
+        boolean: {}
+    pins:
+      name: PINs
+      description: List of PINs associated with this key
+      required: false
+      example:
+        - email: "mytestemail@ringodoor.com"
+          firstname: "My tester"
+          lastname: "API PIN"
+          pin: "128128"
+          nfc_type: "vcard"
+          vcard_create: 1
+          vcard_send: 0
+      default:
+        - email: "mytestemail@ringodoor.com"
+          firstname: "My tester"
+          lastname: "API PIN"
+          pin: "128128"
+          nfc_type: "vcard"
+          vcard_create: 1
+          vcard_send: 0
+      selector:
+        object: {}
+
+update_key:
+  fields:
+    digital_key:
+      name: Digital Key
+      description: The digital key to update
+      required: true
+      example: "4cd2856a4fcd52c2b57ad47d2dcea7a9fb7f14a82d34e6532b2871208c6527a6"
+      default: "4cd2856a4fcd52c2b57ad47d2dcea7a9fb7f14a82d34e6532b2871208c6527a6"
+      selector:
+        text: {}
+    name:
+      name: Name
+      description: New name for the digital key
+      required: true
+      example: "My test key 2"
+      default: "My test key 2"
+      selector:
+        text: {}
+    times:
+      name: Time Schedule
+      description: Updated time periods when the key is valid
+      required: true
+      example:
+        - type: date
+          start: 1671875935
+          end: 1703411935
+        - type: schedule
+          start_time: "08:00:00"
+          end_time: "14:00:00"
+          monday: 1
+          tuesday: 0
+          wednesday: 1
+          thursday: 0
+          friday: 0
+          saturday: 0
+          sunday: 1
+      default:
+        - type: date
+          start: 1671875935
+          end: 1703411935
+        - type: schedule
+          start_time: "08:00:00"
+          end_time: "14:00:00"
+          monday: 1
+          tuesday: 0
+          wednesday: 1
+          thursday: 0
+          friday: 0
+          saturday: 0
+          sunday: 1
+      selector:
+        object: {}
+    locks:
+      name: Locks
+      description: Updated list of locks this key can access
+      required: true
+      example:
+        - lock_id: 106
+          relay_id: 1
+      default:
+        - lock_id: 106
+          relay_id: 1
+      selector:
+        object: {}
+    use_pin:
+      name: Use PIN
+      description: Whether to require a PIN for this key (0 or 1)
+      required: true
+      example: 0
+      default: 0
+      selector:
+        boolean: {}
+    pins:
+      name: PINs
+      description: Updated list of PINs associated with this key
+      required: false
+      example:
+        - email: "mytestemail@ringodoor.com"
+          firstname: "My tester"
+          lastname: "API PIN"
+          pin: "128128"
+      selector:
+        object: {}
+
+delete_key:
+  fields:
+    digital_key:
+      name: Digital Key
+      description: The digital key to delete
+      required: true
+      example: "4cd2856a4fcd52c2b57ad47d2dcea7a9fb7f14a82d34e6532b2871208c6527a6"
+      default: "4cd2856a4fcd52c2b57ad47d2dcea7a9fb7f14a82d34e6532b2871208c6527a6"
+      selector:
+        text: {}
+
+set_digital_key:
+  target:
+    entity:
+      domain: lock
+  fields:
+    digital_key:
+      name: Digital Key
+      description: The digital key to set
+      required: true
+      example: "4cd2856a4fcd52c2b57ad47d2dcea7a9fb7f14a82d34e6532b2871208c6527a6"
+      default: "4cd2856a4fcd52c2b57ad47d2dcea7a9fb7f14a82d34e6532b2871208c6527a6"
+      selector:
+        text: {}
+
+get_key_status:
+  fields:
+    digital_key:
+      name: Digital Key
+      description: The digital key to check
+      required: true
+      example: "4cd2856a4fcd52c2b57ad47d2dcea7a9fb7f14a82d34e6532b2871208c6527a6"
+      default: "4cd2856a4fcd52c2b57ad47d2dcea7a9fb7f14a82d34e6532b2871208c6527a6"
+      selector:
+        text: {} 
